@@ -9,9 +9,9 @@
         <tr v-for="post in posts">
           <td align="center">
             <router-link v-bind:to="{ name: 'NewPost', params: { id: post._id } }"> {{ post.title }} </router-link>
-            <!-- <a href="#" @click="deletePost(post._id)">Delete</a> -->
           </td>
-          <td> {{ post.dir }} </td>
+          <td id="dir"> {{ post.dir }} </td>
+          <td id="delete"><a href="#" @click="deletePost(post._id)">Delete</a></td>
         </tr>
       </table>
     </div>
@@ -41,7 +41,7 @@ export default {
     },
     async deletePost (id) {
       await PostsService.deletePost(id)
-      this.getPosts()
+      await this.getPosts()
     }
   }
 }
@@ -49,17 +49,25 @@ export default {
 <style type="text/css">
 .table-wrap {
   width: 60%;
-  margin: 0 auto;
   text-align: center;
+  margin: 0 auto;
 }
-table th, table tr {
-  text-align: left;
+table {
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
 }
 table tr td {
   padding: 10px;
 }
 table tr:nth-child(odd) {
   background: #f2f2f2;
+}
+#dir {
+  width: 50%;
+}
+#delete {
+  width: 100px;
 }
 a {
   color: #4d7ef7;

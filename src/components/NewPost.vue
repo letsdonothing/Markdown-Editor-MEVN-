@@ -2,16 +2,18 @@
   <div class="posts">
     <h1>Add Document</h1>
     <div class="form">
-      <textarea v-model="title" class="title"></textarea>
+      <div class="input-width">
+        <div class="width-setter">
+          <input v-model="title" class="title"></input>
+        </div>
+      </div>
       <div class="compiler">
         <div class=editor>
           <textarea v-model="input" class="input"></textarea>
         </div>
         <div class="result" v-html="compiledMarkdown"></div>
       </div>
-      <div>
         <button class="add" @click="addPost">Add</button>
-      </div>
     </div>
   </div>
 </template>
@@ -64,26 +66,24 @@ export default {
 <style type="text/css">
 .compiler {
   width: 60%;
-  height: 30vw;
+  height: 420px;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #333;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 20px auto;
 }
 .editor, .result {
   height: 100%;
 }
 .title {
   height: 30px;
-  width: 30vw;
+  width: auto;
+  min-width: 20vw;
   background-color: #fff;
 }
 .input {
   height: 100%;
   width: 100%;
   background-color: #f6f6f6;
-  margin-bottom: 2vw;
-  margin-top: 2vw;
 }
 .title, .input {
   box-sizing: border-box;
@@ -111,7 +111,7 @@ code {
   text-transform: uppercase;
   font-size: 12px;
   font-weight: bold;
-  width: 30vw;
+  width: 20vw;
   border: none;
   cursor: pointer;
 

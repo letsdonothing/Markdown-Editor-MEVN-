@@ -35,11 +35,11 @@ var fs = require('fs')
 app.post('/posts', (req, res) => {
   var db = req.db
   var title = req.body.title
-  var dir = req.body.dir
+  var name = req.body.dir
   var text = req.body.text
   var newPost = new Post({
     title: title,
-    dir: dir
+    dir: name
   });
 
   newPost.save(function (error) {
@@ -47,12 +47,11 @@ app.post('/posts', (req, res) => {
       console.log(error)
     }
     res.send({
-      success: true,
-      message: 'Post saved successfully!'
+      success: true
     })
   })
 
-  fs.writeFile(dir, text, function (error) {
+  fs.writeFile('documents/' + name, text, function (error) {
     if (error) {
       console.log(error)
     }
@@ -62,13 +61,23 @@ app.post('/posts', (req, res) => {
 // Delete a post
 app.delete('/posts/:id', (req, res) => {
   var db = req.db
-  Post.remove({
-    _id: req.params.id
-  }, function (err, post) {
-    if (err) { res.send(err) }
-    res.send({
-      success: true
-    })
+  var id = req.params.id
+  Post.find({ "_id": id }, 'title dir', function (error, post) {
+    if (error) { console.error('Not found') }
+    var str = JSON.stringify(post)
+    name = str.slice(str.length - 19, - 3)
+    var dir = 'documents/' + name
+    fs.unlink(dir)
   })
+  setTimeout(function () {
+    Post.remove({
+      _id: id
+    }, function (err, post) {
+      if (err) { res.send(err) }
+        res.send({
+          success: true
+        })
+    })
+  }, 0)
 })
 
